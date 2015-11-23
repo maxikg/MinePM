@@ -31,9 +31,9 @@ public class Reporter {
         Reporter.adapter = Objects.requireNonNull(adapter, "adapter must be not null.");
     }
 
-    public static void reportEventExecution(String eventClass, Signature signature, long millis) {
+    public static void reportEventExecution(String eventClass, Signature signature, long millis, boolean async) {
         checkInitialized();
-        worker.submit((Runnable) () -> adapter.saveEventExecutionReport(System.currentTimeMillis(), eventClass, signature, millis));
+        worker.submit((Runnable) () -> adapter.saveEventExecutionReport(System.currentTimeMillis(), eventClass, signature, millis, async));
     }
 
     public static void shutdown() {

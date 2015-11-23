@@ -56,12 +56,13 @@ public class ElasticSearchAdapter implements ReportingAdapter {
     }
 
     @Override
-    public void saveEventExecutionReport(long date, String eventClass, Signature signature, long millis) {
+    public void saveEventExecutionReport(long date, String eventClass, Signature signature, long millis, boolean async) {
         Map<String, Object> document = new HashMap<>();
         document.put("date", date);
         document.put("event_class", eventClass);
         document.put("listener_signature", signature.toString());
         document.put("duration", millis);
+        document.put("async", async);
 
         try {
             client.execute(new Index.Builder(document).index("minepm").type("event_timings").build());

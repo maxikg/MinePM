@@ -12,6 +12,6 @@ public aspect BukkitEventHandler {
         long duration = System.currentTimeMillis() - start;
 
         if (duration > 0)
-            Reporter.reportEventExecution(event.getClass().getName(), thisJoinPoint.getSignature(), duration);
+            Reporter.reportEventExecution(event.getClass().getName(), thisJoinPoint.getSignature(), duration, event.isAsynchronous());
     }
 }

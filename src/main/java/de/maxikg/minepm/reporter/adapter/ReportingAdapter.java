@@ -8,5 +8,5 @@ public interface ReportingAdapter {
 
     void shutdown() throws Throwable;
 
-    void saveEventExecutionReport(long date, String eventClass, Signature signature, long millis);
+    void saveEventExecutionReport(long date, String eventClass, Signature signature, long millis, boolean async);
 }
