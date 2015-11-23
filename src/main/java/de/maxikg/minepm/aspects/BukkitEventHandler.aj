@@ -4,8 +4,6 @@ import de.maxikg.minepm.reporter.Reporter;
 
 public aspect BukkitEventHandler {
 
-    public static int THRESHOLD = 0;
-
     pointcut isEventExecutor(org.bukkit.event.Event event): execution(@org.bukkit.event.EventHandler public * *(..)) && args(event);
 
     void around(org.bukkit.event.Event event): isEventExecutor(event) {
@@ -13,7 +11,7 @@ public aspect BukkitEventHandler {
         proceed(event);
         long duration = System.currentTimeMillis() - start;
 
-        if (duration > THRESHOLD)
+        if (duration > AspectConfiguration.BUKKIT_EVENT_HANDLER_THRESHOLD)
             Reporter.reportEventExecution(event.getClass().getName(), thisJoinPoint.getSignature(), duration, event.isAsynchronous());
     }
 }
