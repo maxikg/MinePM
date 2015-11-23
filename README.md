@@ -1,4 +1,4 @@
-# MinePM
+# MinePM [![Build Status](https://travis-ci.org/maxikg/MinePM.svg)](https://travis-ci.org/maxikg/MinePM)
 
 Application Performance Management (APM) for Minecraft servers.
 
