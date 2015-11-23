@@ -1,5 +1,6 @@
 package de.maxikg.minepm;
 
+import de.maxikg.minepm.aspects.BukkitEventHandler;
 import de.maxikg.minepm.reporter.Reporter;
 import de.maxikg.minepm.reporter.adapter.ElasticSearchAdapter;
 import io.searchbox.client.JestClient;
@@ -20,6 +21,7 @@ public class MinePM {
 
     public static void premain(String args, Instrumentation instrumentation) {
         Properties config = readConfiguration();
+        BukkitEventHandler.THRESHOLD = Integer.parseInt(config.getProperty("de_maxikg_minepm_aspects_BukkitEventHandler_THRESHOLD", "0"));
 
         JestClientFactory factory = new JestClientFactory();
         factory.setHttpClientConfig(new HttpClientConfig.Builder(config.getProperty("elasticsearch")).multiThreaded(true).build());
