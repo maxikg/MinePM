@@ -29,6 +29,9 @@ public class ElasticSearchAdapter implements ReportingAdapter {
             "      }," +
             "      \"duration\": {" +
             "        \"type\": \"long\"" +
+            "      }," +
+            "      \"async\": {" +
+            "        \"type\": \"boolean\"" +
             "      }" +
             "    }" +
             "  }" +
