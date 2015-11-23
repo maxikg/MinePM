@@ -20,10 +20,12 @@ public class ElasticSearchAdapter implements ReportingAdapter {
             "        \"format\": \"epoch_millis\"" +
             "      }," +
             "      \"event_class\": {" +
-            "        \"type\": \"string\"" +
+            "        \"type\": \"string\"," +
+            "        \"index\": \"not_analyzed\"" +
             "      }," +
             "      \"listener_signature\": {" +
-            "        \"type\": \"string\"" +
+            "        \"type\": \"string\"," +
+            "        \"index\": \"not_analyzed\"" +
             "      }," +
             "      \"duration\": {" +
             "        \"type\": \"long\"" +
