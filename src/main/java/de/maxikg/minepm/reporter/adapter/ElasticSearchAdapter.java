@@ -39,28 +39,28 @@ public class ElasticSearchAdapter implements ReportingAdapter {
             "}";
     private static final String CHUNK_LOAD_TIMINGS_MAPPING =
             "{" +
-                    "  \"chunk_load_timings\": {" +
-                    "    \"properties\": {" +
-                    "      \"date\": {" +
-                    "        \"type\": \"date\"," +
-                    "        \"format\": \"epoch_millis\"" +
-                    "      }," +
-                    "      \"world\": {" +
-                    "        \"type\": \"string\"," +
-                    "        \"index\": \"not_analyzed\"" +
-                    "      }," +
-                    "      \"x\": {" +
-                    "        \"type\": \"integer\""+
-                    "      }," +
-                    "      \"z\": {" +
-                    "        \"type\": \"integer\"" +
-                    "      }," +
-                    "      \"duration\": {" +
-                    "        \"type\": \"long\"" +
-                    "      }" +
-                    "    }" +
-                    "  }" +
-                    "}";
+            "  \"chunk_load_timings\": {" +
+            "    \"properties\": {" +
+            "      \"date\": {" +
+            "        \"type\": \"date\"," +
+            "        \"format\": \"epoch_millis\"" +
+            "      }," +
+            "      \"world\": {" +
+            "        \"type\": \"string\"," +
+            "        \"index\": \"not_analyzed\"" +
+            "      }," +
+            "      \"x\": {" +
+            "        \"type\": \"integer\""+
+            "      }," +
+            "      \"z\": {" +
+            "        \"type\": \"integer\"" +
+            "      }," +
+            "      \"duration\": {" +
+            "        \"type\": \"long\"" +
+            "      }" +
+            "    }" +
+            "  }" +
+            "}";
 
     private final JestClient client;
 
@@ -70,13 +70,10 @@ public class ElasticSearchAdapter implements ReportingAdapter {
 
     @Override
     public void init() throws Throwable {
-        Map<String, Object> createIndexSettings = new HashMap<>();
-        createIndexSettings.put("number_of_shards", 1);
-        createIndexSettings.put("number_of_replicas", 0);
-        client.execute(new CreateIndex.Builder("minepm").settings(createIndexSettings).build());
-
-        client.execute(new PutMapping.Builder("minepm", "event_timings", EVENT_TIMINGS_MAPPING).build());
-        client.execute(new PutMapping.Builder("minepm", "chunk_load_timings", CHUNK_LOAD_TIMINGS_MAPPING).build());
+        createIndex("event_timings");
+        client.execute(new PutMapping.Builder("minepm_event_timings", "event_timings", EVENT_TIMINGS_MAPPING).build());
+        createIndex("chunk_load_timings");
+        client.execute(new PutMapping.Builder("minepm_chunk_load_timings", "chunk_load_timings", CHUNK_LOAD_TIMINGS_MAPPING).build());
     }
 
     @Override
@@ -94,7 +91,7 @@ public class ElasticSearchAdapter implements ReportingAdapter {
         document.put("async", async);
 
         try {
-            client.execute(new Index.Builder(document).index("minepm").type("event_timings").build());
+            client.execute(new Index.Builder(document).index("minepm_event_timings").type("event_timings").build());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,9 +114,16 @@ public class ElasticSearchAdapter implements ReportingAdapter {
         document.put("duration", millis);
 
         try {
-            client.execute(new Index.Builder(document).index("minepm").type("chunk_load_timings").build());
+            client.execute(new Index.Builder(document).index("minepm_chunk_load_timings").type("chunk_load_timings").build());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void createIndex(String prefix) throws Throwable {
+        Map<String, Object> createIndexSettings = new HashMap<>();
+        createIndexSettings.put("number_of_shards", 1);
+        createIndexSettings.put("number_of_replicas", 0);
+        client.execute(new CreateIndex.Builder("minepm_" + prefix).settings(createIndexSettings).build());
     }
 }
