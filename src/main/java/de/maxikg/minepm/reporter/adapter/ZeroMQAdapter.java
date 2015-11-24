@@ -21,8 +21,8 @@ public class ZeroMQAdapter implements ReportingAdapter {
     @Override
     public void init() throws Throwable {
         context = ZMQ.context(1);
-        socket = context.socket(ZMQ.PUSH);
-        socket.bind(uri);
+        socket = context.socket(ZMQ.PAIR);
+        socket.connect(uri);
     }
 
     @Override
@@ -36,11 +36,14 @@ public class ZeroMQAdapter implements ReportingAdapter {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
+            jw.name("message");
+            jw.beginObject();
             jw.name("date").value(date);
             jw.name("event_class").value(eventClass);
             jw.name("listener_signature").value(signature.toString());
             jw.name("duration").value(millis);
             jw.name("async").value(async);
+            jw.endObject();
             jw.endObject();
             value = sw.toString();
         } catch (IOException e) {
@@ -57,17 +60,21 @@ public class ZeroMQAdapter implements ReportingAdapter {
         try {
             worldIdentifier = String.valueOf((int) world.getClass().getField("dimension").get(world));
         } catch (ReflectiveOperationException e) {
+            // ToDo: Exception handling
             return;
         }
 
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
+            jw.name("message");
+            jw.beginObject();
             jw.name("date").value(date);
             jw.name("world").value(worldIdentifier);
             jw.name("x").value(x);
             jw.name("z").value(z);
             jw.name("duration").value(millis);
+            jw.endObject();
             jw.endObject();
             value = sw.toString();
         } catch (IOException e) {
