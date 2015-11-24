@@ -12,7 +12,8 @@ import java.util.Objects;
 
 public class ElasticSearchAdapter implements ReportingAdapter {
 
-    private static final String MAPPING = "{" +
+    private static final String EVENT_TIMINGS_MAPPING =
+            "{" +
             "  \"event_timings\": {" +
             "    \"properties\": {" +
             "      \"date\": {" +
@@ -36,6 +37,30 @@ public class ElasticSearchAdapter implements ReportingAdapter {
             "    }" +
             "  }" +
             "}";
+    private static final String CHUNK_LOAD_TIMINGS_MAPPING =
+            "{" +
+                    "  \"chunk_load_timings\": {" +
+                    "    \"properties\": {" +
+                    "      \"date\": {" +
+                    "        \"type\": \"date\"," +
+                    "        \"format\": \"epoch_millis\"" +
+                    "      }," +
+                    "      \"world\": {" +
+                    "        \"type\": \"string\"," +
+                    "        \"index\": \"not_analyzed\"" +
+                    "      }," +
+                    "      \"x\": {" +
+                    "        \"type\": \"integer\""+
+                    "      }," +
+                    "      \"z\": {" +
+                    "        \"type\": \"integer\"" +
+                    "      }," +
+                    "      \"duration\": {" +
+                    "        \"type\": \"long\"" +
+                    "      }" +
+                    "    }" +
+                    "  }" +
+                    "}";
 
     private final JestClient client;
 
@@ -50,7 +75,8 @@ public class ElasticSearchAdapter implements ReportingAdapter {
         createIndexSettings.put("number_of_replicas", 0);
         client.execute(new CreateIndex.Builder("minepm").settings(createIndexSettings).build());
 
-        client.execute(new PutMapping.Builder("minepm", "event_timings", MAPPING).build());
+        client.execute(new PutMapping.Builder("minepm", "event_timings", EVENT_TIMINGS_MAPPING).build());
+        client.execute(new PutMapping.Builder("minepm", "chunk_load_timings", CHUNK_LOAD_TIMINGS_MAPPING).build());
     }
 
     @Override
@@ -69,6 +95,29 @@ public class ElasticSearchAdapter implements ReportingAdapter {
 
         try {
             client.execute(new Index.Builder(document).index("minepm").type("event_timings").build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveChunkLoadReport(long date, Object world, int x, int z, long millis) {
+        String worldIdentifier;
+        try {
+            worldIdentifier = String.valueOf((int) world.getClass().getField("dimension").get(world));
+        } catch (ReflectiveOperationException e) {
+            return;
+        }
+
+        Map<String, Object> document = new HashMap<>();
+        document.put("date", date);
+        document.put("world", worldIdentifier);
+        document.put("x", x);
+        document.put("z", z);
+        document.put("duration", millis);
+
+        try {
+            client.execute(new Index.Builder(document).index("minepm").type("chunk_load_timings").build());
         } catch (Exception e) {
             e.printStackTrace();
         }
