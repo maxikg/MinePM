@@ -36,6 +36,8 @@ public class ZeroMQAdapter implements ReportingAdapter {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
+            jw.name("type");
+            jw.value("event_timing");
             jw.name("message");
             jw.beginObject();
             jw.name("date").value(date);
@@ -67,6 +69,8 @@ public class ZeroMQAdapter implements ReportingAdapter {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
+            jw.name("type");
+            jw.value("chunk_timing");
             jw.name("message");
             jw.beginObject();
             jw.name("date").value(date);
