@@ -9,7 +9,8 @@ performance metrics and helps to isolate errors to its root cause.
 It uses [ZeroMQ](http://zeromq.org/) for distributing data. You can use it for transporting it to a
 [Logstash](https://www.elastic.co/products/elasticsearch) server which does insert it into
 [ElasticSearch](https://www.elastic.co/products/elasticsearch). From there you can use
-[Kibana](https://www.elastic.co/products/kibana) to visualize/analyze collected data.
+[Kibana](https://www.elastic.co/products/kibana) to visualize/analyze collected data. For an example configuration
+file see: [docs/logstash/config.conf](/docs/logstash/config.conf).
 
 ## Example
 
