@@ -33,14 +33,12 @@ public class Reporter {
 
     public static void reportEventExecution(String eventClass, Signature signature, long millis, boolean async) {
         checkInitialized();
-        long date = System.currentTimeMillis();
-        worker.submit((Runnable) () -> adapter.saveEventExecutionReport(date, eventClass, signature, millis, async));
+        worker.submit((Runnable) () -> adapter.saveEventExecutionReport(eventClass, signature, millis, async));
     }
 
     public static void reportChunkLoad(Object world, int x, int z, long millis) {
         checkInitialized();
-        long date = System.currentTimeMillis();
-        worker.submit((Runnable) () -> adapter.saveChunkLoadReport(date, world, x, z, millis));
+        worker.submit((Runnable) () -> adapter.saveChunkLoadReport(world, x, z, millis));
     }
 
     public static void shutdown() {

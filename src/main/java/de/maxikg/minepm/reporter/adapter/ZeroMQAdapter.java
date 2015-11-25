@@ -32,7 +32,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
     }
 
     @Override
-    public void saveEventExecutionReport(long date, String eventClass, Signature signature, long millis, boolean async) {
+    public void saveEventExecutionReport(String eventClass, Signature signature, long millis, boolean async) {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
@@ -40,7 +40,6 @@ public class ZeroMQAdapter implements ReportingAdapter {
             jw.value("event_timing");
             jw.name("message");
             jw.beginObject();
-            jw.name("date").value(date);
             jw.name("event_class").value(eventClass);
             jw.name("listener_signature").value(signature.toString());
             jw.name("duration").value(millis);
@@ -57,7 +56,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
     }
 
     @Override
-    public void saveChunkLoadReport(long date, Object world, int x, int z, long millis) {
+    public void saveChunkLoadReport(Object world, int x, int z, long millis) {
         String worldIdentifier;
         try {
             worldIdentifier = String.valueOf((int) world.getClass().getField("dimension").get(world));
@@ -73,7 +72,6 @@ public class ZeroMQAdapter implements ReportingAdapter {
             jw.value("chunk_timing");
             jw.name("message");
             jw.beginObject();
-            jw.name("date").value(date);
             jw.name("world").value(worldIdentifier);
             jw.name("x").value(x);
             jw.name("z").value(z);
