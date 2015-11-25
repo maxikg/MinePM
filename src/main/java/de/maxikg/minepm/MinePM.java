@@ -2,10 +2,7 @@ package de.maxikg.minepm;
 
 import de.maxikg.minepm.aspects.AspectConfiguration;
 import de.maxikg.minepm.reporter.Reporter;
-import de.maxikg.minepm.reporter.adapter.ElasticSearchAdapter;
-import io.searchbox.client.JestClient;
-import io.searchbox.client.JestClientFactory;
-import io.searchbox.client.config.HttpClientConfig;
+import de.maxikg.minepm.reporter.adapter.ZeroMQAdapter;
 import org.aspectj.weaver.loadtime.Agent;
 
 import java.io.File;
@@ -23,12 +20,13 @@ public class MinePM {
         Properties config = readConfiguration();
         AspectConfiguration.BUKKIT_EVENT_HANDLER_THRESHOLD = Integer.parseInt(config.getProperty("de_maxikg_minepm_aspects_BukkitEventHandler_THRESHOLD", "0"));
 
-        JestClientFactory factory = new JestClientFactory();
+        /*JestClientFactory factory = new JestClientFactory();
         factory.setHttpClientConfig(new HttpClientConfig.Builder(config.getProperty("elasticsearch")).multiThreaded(true).build());
-        JestClient client = factory.getObject();
+        JestClient client = factory.getObject();*/
 
         Runtime.getRuntime().addShutdownHook(new Thread(Reporter::shutdown));
-        Reporter.init(new ElasticSearchAdapter(client));
+        //Reporter.init(new ElasticSearchAdapter(client));
+        Reporter.init(new ZeroMQAdapter(config.getProperty("zeromq")));
         Agent.premain(args, instrumentation);
     }
 

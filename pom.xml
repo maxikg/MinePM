@@ -105,6 +105,8 @@
                                     <include>commons-logging:commons-logging</include>
                                     <include>commons-codec:commons-codec</include>
                                     <include>org.slf4j:slf4j-api</include>
+                                    <include>org.zeromq:jeromq</include>
+                                    <include>com.google.code.gson:gson</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
