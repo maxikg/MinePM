@@ -6,8 +6,10 @@ The most server operators who have worked for a server with ~50 or more concurre
 issues. They are hard to reproduce and harder to fix. This software tries to address this issue. It continually saves
 performance metrics and helps to isolate errors to its root cause.
 
-It uses [ElasticSearch](https://www.elastic.co/products/elasticsearch) for saving data. To visualize the collected data
-you should take a look at [Kibana](https://www.elastic.co/products/kibana).
+It uses [ZeroMQ](http://zeromq.org/) for distributing data. You can use it for transporting it to a
+[Logstash](https://www.elastic.co/products/elasticsearch) server which does insert it into
+[ElasticSearch](https://www.elastic.co/products/elasticsearch). From there you can use
+[Kibana](https://www.elastic.co/products/kibana) to visualize/analyze collected data.
 
 ## Example
 
