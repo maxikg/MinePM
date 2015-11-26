@@ -20,12 +20,7 @@ public class MinePM {
         Properties config = readConfiguration();
         AspectConfiguration.BUKKIT_EVENT_HANDLER_THRESHOLD = Integer.parseInt(config.getProperty("de_maxikg_minepm_aspects_BukkitEventHandler_THRESHOLD", "0"));
 
-        /*JestClientFactory factory = new JestClientFactory();
-        factory.setHttpClientConfig(new HttpClientConfig.Builder(config.getProperty("elasticsearch")).multiThreaded(true).build());
-        JestClient client = factory.getObject();*/
-
         Runtime.getRuntime().addShutdownHook(new Thread(Reporter::shutdown));
-        //Reporter.init(new ElasticSearchAdapter(client));
         Reporter.init(new ZeroMQAdapter(config.getProperty("zeromq")));
         Agent.premain(args, instrumentation);
     }
