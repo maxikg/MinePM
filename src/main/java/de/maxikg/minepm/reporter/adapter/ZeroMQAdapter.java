@@ -7,8 +7,12 @@ import org.zeromq.ZMQ;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ZeroMQAdapter implements ReportingAdapter {
+
+    private static final Logger LOGGER = Logger.getLogger(ZeroMQAdapter.class.getName());
 
     private final String uri;
     private ZMQ.Context context;
@@ -48,7 +52,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
             jw.endObject();
             value = sw.toString();
         } catch (IOException e) {
-            // ToDo: Exception handling
+            LOGGER.log(Level.SEVERE, "An exception occurred while persisting message.", e);
             return;
         }
 
@@ -61,7 +65,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
         try {
             worldIdentifier = String.valueOf((int) world.getClass().getField("dimension").get(world));
         } catch (ReflectiveOperationException e) {
-            // ToDo: Exception handling
+            LOGGER.log(Level.SEVERE, "An exception occurred while accessing field \"dimension\" on " + Objects.toString(world.getClass().getName(), "null") + ".", e);
             return;
         }
 
@@ -80,7 +84,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
             jw.endObject();
             value = sw.toString();
         } catch (IOException e) {
-            // ToDo: Exception handling
+            LOGGER.log(Level.SEVERE, "An exception occurred while persisting message.", e);
             return;
         }
 
