@@ -23,6 +23,7 @@ To use this software you need to run Java 8.
  1. Download the archive or build the project
  2. Extract the `minepm` directory inside the archive into your Minecraft server root directory
  3. Configure `minepm/config.properties`
- 4. Start Minecraft Vanilla/Bukkit/Spigot: `java -javaagent:minepm/minepm.jar -jar <your-server-jar>`
+ 4. Create mappings (see [here](/docs/elasticsearch/mappings/README.md))
+ 5. Start Minecraft Vanilla/Bukkit/Spigot: `java -javaagent:minepm/minepm.jar -jar <your-server-jar>`
 
 Make sure that you include `-javaagent:minepm/minepm.jar` in command line arguments.
