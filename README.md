@@ -14,7 +14,10 @@ file see: [docs/logstash/config.conf](/docs/logstash/config.conf).
 
 ## Example
 
-ToDo: Include some screenshots
+![Kibana example #001](/docs/img/example_001.png "Kibana example #001")
+
+This screenshot show ~15 minutes gameplay. You can [import](/docs/kibana/README.md) this dashboard from the
+[json file](/docs/kibana/dashboards/example_001.json).
 
 ## Usage
 

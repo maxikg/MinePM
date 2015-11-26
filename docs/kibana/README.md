@@ -12,7 +12,8 @@ button. Now select the json document you want to import. After it is uploaded it
 
 ## Dashboards
 
-Currently nothing.
+ * [example_001.json](dashboards/example_001.json) - The dashboard shown in [this image](../img/example_001.png).
+   Contains the dashboard and all required visualizations.
 
 ## Searches
 
