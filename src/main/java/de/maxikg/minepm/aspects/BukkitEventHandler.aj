@@ -7,11 +7,15 @@ public aspect BukkitEventHandler {
     pointcut isEventExecutor(org.bukkit.event.Event event): execution(@org.bukkit.event.EventHandler public * *(..)) && args(event);
 
     void around(org.bukkit.event.Event event): isEventExecutor(event) {
-        long start = System.currentTimeMillis();
-        proceed(event);
-        long duration = System.currentTimeMillis() - start;
+        if (AspectConfiguration.BUKKIT_EVENT_HANDLER_ENABLED) {
+            long start = System.currentTimeMillis();
+            proceed(event);
+            long duration = System.currentTimeMillis() - start;
 
-        if (duration > AspectConfiguration.BUKKIT_EVENT_HANDLER_THRESHOLD)
-            Reporter.reportEventExecution(event.getClass().getName(), thisJoinPoint.getSignature(), duration, event.isAsynchronous());
+            if (duration > AspectConfiguration.BUKKIT_EVENT_HANDLER_THRESHOLD)
+                Reporter.reportEventExecution(event.getClass().getName(), thisJoinPoint.getSignature(), duration, event.isAsynchronous());
+        } else {
+            proceed(event);
+        }
     }
 }

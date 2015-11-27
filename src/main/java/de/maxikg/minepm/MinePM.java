@@ -22,7 +22,7 @@ public class MinePM {
 
     public static void premain(String args, Instrumentation instrumentation) {
         Properties config = readConfiguration();
-        AspectConfiguration.BUKKIT_EVENT_HANDLER_THRESHOLD = Integer.parseInt(config.getProperty("de_maxikg_minepm_aspects_BukkitEventHandler_THRESHOLD", "0"));
+        AspectConfiguration.load(config);
 
         Runtime.getRuntime().addShutdownHook(new Thread(Reporter::shutdown));
         Reporter.init(new ZeroMQAdapter(config.getProperty("zeromq")));
