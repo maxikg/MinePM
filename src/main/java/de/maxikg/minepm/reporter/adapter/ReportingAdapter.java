@@ -11,4 +11,6 @@ public interface ReportingAdapter {
     void saveEventExecutionReport(String eventClass, Signature signature, long millis, boolean async);
 
     void saveChunkLoadReport(Object world, int x, int z, long millis);
+
+    void saveTps(double tps);
 }

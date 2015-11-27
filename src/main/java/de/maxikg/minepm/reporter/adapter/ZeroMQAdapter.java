@@ -90,4 +90,25 @@ public class ZeroMQAdapter implements ReportingAdapter {
 
         socket.send(value);
     }
+
+    @Override
+    public void saveTps(double tps) {
+        String value;
+        try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
+            jw.beginObject();
+            jw.name("type");
+            jw.value("tps");
+            jw.name("message");
+            jw.beginObject();
+            jw.name("tps").value(tps);
+            jw.endObject();
+            jw.endObject();
+            value = sw.toString();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "An exception occurred while persisting message.", e);
+            return;
+        }
+
+        socket.send(value);
+    }
 }

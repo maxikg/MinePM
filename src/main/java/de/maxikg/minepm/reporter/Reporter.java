@@ -41,6 +41,11 @@ public class Reporter {
         worker.submit((Runnable) () -> adapter.saveChunkLoadReport(world, x, z, millis));
     }
 
+    public static void reportTps(double tps) {
+        checkInitialized();
+        worker.submit((Runnable) () -> adapter.saveTps(tps));
+    }
+
     public static void shutdown() {
         worker.shutdown();
         worker = null;

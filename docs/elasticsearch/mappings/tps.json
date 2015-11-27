@@ -1,0 +1,28 @@
+{
+  "mappings": {
+    "chunk_timing": {
+      "properties": {
+        "@timestamp": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "@version": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "properties": {
+            "tps": {
+              "type": "double"
+            }
+          }
+        }
+      }
+    }
+  }
+}
