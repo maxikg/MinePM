@@ -12,6 +12,13 @@ It uses [ZeroMQ](http://zeromq.org/) for distributing data. You can use it for t
 [Kibana](https://www.elastic.co/products/kibana) to visualize/analyze collected data. For an example configuration
 file see: [docs/logstash/config.conf](/docs/logstash/config.conf).
 
+## Features
+
+ * Collecting different metrics
+   * Current ticks per second (TPS)
+   * Long-running event executors
+   * Chunk load time
+
 ## Example
 
 ![Kibana example #001](/docs/img/example_001.png "Kibana example #001")
