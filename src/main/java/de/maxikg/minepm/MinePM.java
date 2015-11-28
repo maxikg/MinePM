@@ -25,7 +25,7 @@ public class MinePM {
         AspectConfiguration.load(config);
 
         Runtime.getRuntime().addShutdownHook(new Thread(Reporter::shutdown));
-        Reporter.init(new ZeroMQAdapter(config.getProperty("zeromq")));
+        Reporter.init(new ZeroMQAdapter(config.getProperty("zeromq", "tcp://localhost:2120"), config.getProperty("server_id", "test_server")));
         Agent.premain(args, instrumentation);
     }
 

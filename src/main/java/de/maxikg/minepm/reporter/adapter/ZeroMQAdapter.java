@@ -15,11 +15,13 @@ public class ZeroMQAdapter implements ReportingAdapter {
     private static final Logger LOGGER = Logger.getLogger(ZeroMQAdapter.class.getName());
 
     private final String uri;
+    private final String serverId;
     private ZMQ.Context context;
     private ZMQ.Socket socket;
 
-    public ZeroMQAdapter(String uri) {
+    public ZeroMQAdapter(String uri, String serverId) {
         this.uri = Objects.requireNonNull(uri, "uri must be not null.");
+        this.serverId = Objects.requireNonNull(serverId, "serverId must be not null.");
     }
 
     @Override
@@ -40,8 +42,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
-            jw.name("type");
-            jw.value("event_timing");
+            basicWrite(jw, "event_timing");
             jw.name("message");
             jw.beginObject();
             jw.name("event_class").value(eventClass);
@@ -72,8 +73,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
-            jw.name("type");
-            jw.value("chunk_timing");
+            basicWrite(jw, "chunk_timing");
             jw.name("message");
             jw.beginObject();
             jw.name("world").value(worldIdentifier);
@@ -96,8 +96,7 @@ public class ZeroMQAdapter implements ReportingAdapter {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
-            jw.name("type");
-            jw.value("tps");
+            basicWrite(jw, "tps");
             jw.name("message");
             jw.beginObject();
             jw.name("tps").value(tps);
@@ -110,5 +109,10 @@ public class ZeroMQAdapter implements ReportingAdapter {
         }
 
         socket.send(value);
+    }
+
+    private void basicWrite(JsonWriter jsonWriter, String type) throws IOException {
+        jsonWriter.name("type").value(type);
+        jsonWriter.name("server_id").value(serverId);
     }
 }

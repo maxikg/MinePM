@@ -15,6 +15,10 @@
         "type": {
           "type": "string"
         },
+        "server_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
         "message": {
           "properties": {
             "async": {
