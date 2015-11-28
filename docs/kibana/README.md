@@ -23,4 +23,6 @@ Currently nothing.
 
  * [chunks-per-dimension.json](visualizations/chunks-per-dimension.json) - A pie chart visualizing the loaded chunks of
    each dimension.
- * [tps.json](visualizations/tps.json) - A line chart displaying the ticks per second of the server.
+ * [tps.json](visualizations/tps.json) - A line chart displaying the ticks per second of the server(s).
+ * [tps.json](visualizations/tps-average.json) - A table displaying the ticks per second of the servers, starting with
+   lowest.

@@ -1,0 +1,15 @@
+[
+  {
+    "_id": "Average-TPS",
+    "_type": "visualization",
+    "_source": {
+      "title": "Average TPS",
+      "visState": "{\"type\":\"table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"showMeticsAtAllLevels\":false},\"aggs\":[{\"id\":\"1\",\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"message.tps\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"server_id\",\"size\":5,\"order\":\"asc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"minepm_tps\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  }
+]
