@@ -16,6 +16,7 @@ file see: [docs/logstash/config.conf](/docs/logstash/config.conf).
 
  * Collecting different metrics
    * Current ticks per second (TPS)
+   * Player count/max players
    * Long-running event executors
    * Chunk load time
 
