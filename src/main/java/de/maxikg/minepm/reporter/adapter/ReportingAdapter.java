@@ -13,4 +13,6 @@ public interface ReportingAdapter {
     void saveChunkLoadReport(Object world, int x, int z, long millis);
 
     void saveTps(double tps);
+
+    void savePlayers(int players, int maxPlayers);
 }

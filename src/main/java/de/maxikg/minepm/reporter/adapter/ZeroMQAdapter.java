@@ -111,6 +111,27 @@ public class ZeroMQAdapter implements ReportingAdapter {
         socket.send(value);
     }
 
+    @Override
+    public void savePlayers(int players, int maxPlayers) {
+        String value;
+        try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
+            jw.beginObject();
+            basicWrite(jw, "players");
+            jw.name("message");
+            jw.beginObject();
+            jw.name("players").value(players);
+            jw.name("max_players").value(maxPlayers);
+            jw.endObject();
+            jw.endObject();
+            value = sw.toString();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "An exception occurred while persisting message.", e);
+            return;
+        }
+
+        socket.send(value);
+    }
+
     private void basicWrite(JsonWriter jsonWriter, String type) throws IOException {
         jsonWriter.name("type").value(type);
         jsonWriter.name("server_id").value(serverId);

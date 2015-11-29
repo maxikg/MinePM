@@ -46,6 +46,11 @@ public class Reporter {
         worker.submit((Runnable) () -> adapter.saveTps(tps));
     }
 
+    public static void reportPlayers(int players, int maxPlayers) {
+        checkInitialized();
+        worker.submit((Runnable) () -> adapter.savePlayers(players, maxPlayers));
+    }
+
     public static void shutdown() {
         worker.shutdown();
         worker = null;

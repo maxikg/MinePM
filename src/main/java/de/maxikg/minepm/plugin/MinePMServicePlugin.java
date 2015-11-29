@@ -1,5 +1,6 @@
 package de.maxikg.minepm.plugin;
 
+import de.maxikg.minepm.plugin.timer.PlayerTask;
 import de.maxikg.minepm.plugin.timer.TpsTask;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
@@ -23,6 +24,7 @@ public class MinePMServicePlugin extends InterceptedPlugin {
     @Override
     public void onEnable() {
         timer.schedule(new TpsTask(getServer()), ONE_MINUTE, ONE_MINUTE);
+        timer.schedule(new PlayerTask(getServer()), ONE_MINUTE, ONE_MINUTE);
     }
 
     @Override
