@@ -2,10 +2,12 @@ package de.maxikg.minepm.reporter.adapter;
 
 import com.google.gson.stream.JsonWriter;
 import org.aspectj.lang.Signature;
+import org.bukkit.entity.Player;
 import org.zeromq.ZMQ;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,14 +114,19 @@ public class ZeroMQAdapter implements ReportingAdapter {
     }
 
     @Override
-    public void savePlayers(int players, int maxPlayers) {
+    public void savePlayers(Collection<? extends Player> players, int maxPlayers) {
         String value;
         try (StringWriter sw = new StringWriter(); JsonWriter jw = new JsonWriter(sw)) {
             jw.beginObject();
             basicWrite(jw, "players");
             jw.name("message");
             jw.beginObject();
-            jw.name("players").value(players);
+            jw.name("players").value(players.size());
+            jw.name("player_list");
+            jw.beginArray();
+            for (Player player : players)
+                jw.value(player.getUniqueId().toString());
+            jw.endArray();
             jw.name("max_players").value(maxPlayers);
             jw.endObject();
             jw.endObject();

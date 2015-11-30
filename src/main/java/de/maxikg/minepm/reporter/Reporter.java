@@ -2,7 +2,9 @@ package de.maxikg.minepm.reporter;
 
 import de.maxikg.minepm.reporter.adapter.ReportingAdapter;
 import org.aspectj.lang.Signature;
+import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,7 +48,7 @@ public class Reporter {
         worker.submit((Runnable) () -> adapter.saveTps(tps));
     }
 
-    public static void reportPlayers(int players, int maxPlayers) {
+    public static void reportPlayers(Collection<? extends Player> players, int maxPlayers) {
         checkInitialized();
         worker.submit((Runnable) () -> adapter.savePlayers(players, maxPlayers));
     }

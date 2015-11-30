@@ -1,6 +1,9 @@
 package de.maxikg.minepm.reporter.adapter;
 
 import org.aspectj.lang.Signature;
+import org.bukkit.entity.Player;
+
+import java.util.Collection;
 
 public interface ReportingAdapter {
 
@@ -14,5 +17,5 @@ public interface ReportingAdapter {
 
     void saveTps(double tps);
 
-    void savePlayers(int players, int maxPlayers);
+    void savePlayers(Collection<? extends Player> players, int maxPlayers);
 }

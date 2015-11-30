@@ -16,6 +16,6 @@ public class PlayerTask extends TimerTask {
 
     @Override
     public void run() {
-        Reporter.reportPlayers(server.getOnlinePlayers().size(), server.getMaxPlayers());
+        Reporter.reportPlayers(server.getOnlinePlayers(), server.getMaxPlayers());
     }
 }

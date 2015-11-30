@@ -24,6 +24,10 @@
             "players": {
               "type": "integer"
             },
+            "player_list": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
             "max_players": {
               "type": "integer"
             }
