@@ -39,3 +39,8 @@ To use this software you need to run Java 8.
  6. Start Minecraft Vanilla/Bukkit/Spigot: `java -javaagent:minepm/minepm.jar -jar <your-server-jar>`
 
 Make sure that you include `-javaagent:minepm/minepm.jar` in command line arguments.
+
+## ToDo
+
+ * Additional dashboards
+ * Documentation
