@@ -21,16 +21,18 @@ public class Reporter {
     public static synchronized void init(ReportingAdapter adapter) {
         if (initialized)
             throw new IllegalStateException("Already initialized.");
+        Reporter.initialized = true;
 
+        Objects.requireNonNull(adapter, "adapter must be not null.");
         try {
             adapter.init();
         } catch (Throwable throwable) {
+            Reporter.initialized = false;
             throw new RuntimeException(throwable);
         }
 
-        Reporter.initialized = true;
         Reporter.worker = Executors.newSingleThreadExecutor();
-        Reporter.adapter = Objects.requireNonNull(adapter, "adapter must be not null.");
+        Reporter.adapter = adapter;
     }
 
     public static void reportEventExecution(String eventClass, Signature signature, long millis, boolean async) {
@@ -54,6 +56,7 @@ public class Reporter {
     }
 
     public static void shutdown() {
+        checkInitialized();
         worker.shutdown();
         worker = null;
         try {
