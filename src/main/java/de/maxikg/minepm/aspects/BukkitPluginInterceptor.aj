@@ -18,11 +18,16 @@ public aspect BukkitPluginInterceptor {
 
     before(PluginLoadOrder type): isEnablePlugins(type) {
         if (type == PluginLoadOrder.STARTUP) {
+            if (!AspectConfiguration.isPluginRequired()) {
+                LOGGER.info("Skip interception of MinePM service plugin because no features of the plugin are enabled.");
+                return;
+            }
+
             SimplePluginManager pm = PluginUtils.getPluginManager(thisJoinPoint.getTarget());
             if (pm == null)
                 return;
             File pluginFile = PluginUtils.getFile();
-            Plugin plugin = new MinePMServicePlugin(pluginFile.getParentFile(), MinePMPluginLoader.INSTANCE);
+            Plugin plugin = new MinePMServicePlugin(pluginFile.getParentFile(), MinePMPluginLoader.INSTANCE, AspectConfiguration.BUKKIT_PLAYER_OBSERVATION_ENABLED, AspectConfiguration.BUKKIT_PLAYER_TPS_ENABLED);
             if (plugin != null) {
                 LOGGER.info("Enable MinePM service plugin through interception...");
                 pm.enablePlugin(plugin);
