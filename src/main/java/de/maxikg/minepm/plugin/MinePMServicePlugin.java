@@ -15,7 +15,7 @@ public class MinePMServicePlugin extends InterceptedPlugin {
     public static final PluginDescriptionFile DESCRIPTION = new PluginDescriptionFile("MinePMServicePlugin", "included", MinePMServicePlugin.class.getName());
     private static final long ONE_MINUTE = TimeUnit.MINUTES.toMillis(1);
 
-    private final Timer timer = new Timer();
+    private Timer timer;
 
     public MinePMServicePlugin(File dataFolder, PluginLoader pluginLoader) {
         super(dataFolder, pluginLoader, DESCRIPTION);
@@ -23,12 +23,14 @@ public class MinePMServicePlugin extends InterceptedPlugin {
 
     @Override
     public void onEnable() {
+        timer = new Timer();
         timer.schedule(new TpsTask(getServer()), ONE_MINUTE, ONE_MINUTE);
         timer.schedule(new PlayerTask(getServer()), ONE_MINUTE, ONE_MINUTE);
     }
 
     @Override
     public void onDisable() {
-        timer.cancel();
+        if (timer != null)
+            timer.cancel();
     }
 }
